@@ -513,8 +513,6 @@ After changes are merged:
    - GitHub Release
    - Release Notes
 
-No manual version updates or tagging are required.
-
 ---
 
 ## Testing
