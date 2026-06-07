@@ -19,3 +19,5 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT }}
           release-type: simple
+          config-file: .release.config.json
+          manifest-file: .release.manifest.json
