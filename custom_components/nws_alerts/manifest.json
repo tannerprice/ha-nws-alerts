@@ -4,8 +4,8 @@
   "codeowners": ["@tannerprice"],
   "config_flow": true,
   "documentation": "https://github.com/tannerprice/ha-nws-alerts",
-  "issue_tracker": "https://github.com/tannerprice/ha-nws-alerts/issues",
   "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/tannerprice/ha-nws-alerts/issues",
   "requirements": [],
   "version": "0.1.0"
 }
