@@ -1,0 +1,138 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    if: "!startsWith(github.event.head_commit.message, 'chore: release')"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Determine version bump
+        id: bump
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BUMP="${{ inputs.bump }}"
+          else
+            MSG="${{ github.event.head_commit.message }}"
+            if echo "$MSG" | grep -Eq "^[a-z]+(\(.+\))?!:" || echo "$MSG" | grep -q "BREAKING CHANGE:"; then
+              BUMP="major"
+            elif echo "$MSG" | grep -q "^feat"; then
+              BUMP="minor"
+            else
+              BUMP="patch"
+            fi
+          fi
+
+          if [ "$BUMP" = "auto" ]; then
+            BUMP="patch"
+          fi
+
+          echo "bump=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Get current version
+        id: current
+        run: |
+          VERSION=$(python -c "import json; print(json.load(open('custom_components/nws_alerts/manifest.json'))['version'])")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Calculate next version
+        id: next
+        shell: bash
+        run: |
+          VERSION="${{ steps.current.outputs.version }}"
+          BUMP="${{ steps.bump.outputs.bump }}"
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          if [ "$BUMP" = "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$BUMP" = "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          NEXT="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "tag=v$NEXT" >> "$GITHUB_OUTPUT"
+
+      - name: Update manifest version
+        run: |
+          python - <<'PY'
+          import json
+
+          path = "custom_components/nws_alerts/manifest.json"
+          version = "${{ steps.next.outputs.version }}"
+
+          with open(path) as f:
+              data = json.load(f)
+
+          data["version"] = version
+
+          with open(path, "w") as f:
+              json.dump(data, f, indent=2)
+              f.write("\n")
+          PY
+
+      - name: Generate release notes
+        run: |
+          git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD \
+            --pretty=format:"- %s" > RELEASE_NOTES.md
+
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "- Release ${{ steps.next.outputs.tag }}" > RELEASE_NOTES.md
+          fi
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add custom_components/nws_alerts/manifest.json
+          git commit -m "chore: release ${{ steps.next.outputs.tag }}"
+          git push
+
+      - name: Create tag
+        run: |
+          git tag ${{ steps.next.outputs.tag }}
+          git push origin ${{ steps.next.outputs.tag }}
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.next.outputs.tag }}
+          name: ${{ steps.next.outputs.tag }}
+          body_path: RELEASE_NOTES.md
