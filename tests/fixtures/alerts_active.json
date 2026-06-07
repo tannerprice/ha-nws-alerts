@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "https://api.weather.gov/alerts/abc123",
+        "areaDesc": "Dallas County",
+        "event": "Tornado Warning",
+        "headline": "Tornado Warning issued for Dallas County",
+        "description": "A tornado warning is active.",
+        "instruction": "Take shelter now.",
+        "severity": "Extreme",
+        "certainty": "Observed",
+        "urgency": "Immediate",
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "response": "Shelter",
+        "sent": "2026-06-07T12:00:00-05:00",
+        "effective": "2026-06-07T12:00:00-05:00",
+        "onset": "2026-06-07T12:00:00-05:00",
+        "expires": "2026-06-07T12:45:00-05:00",
+        "ends": null,
+        "updated": "2026-06-07T12:00:00-05:00",
+        "senderName": "NWS Fort Worth TX",
+        "geocode": {
+          "UGC": ["TXC113"]
+        }
+      }
+    }
+  ]
+}

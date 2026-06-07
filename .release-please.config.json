@@ -1,0 +1,16 @@
+{
+  "release-type": "simple",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "include-component-in-tag": false,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "custom_components/nws_alerts/manifest.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    }
+  }
+}

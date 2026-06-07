@@ -1,0 +1,30 @@
+[project]
+name = "ha-nws-alerts"
+version = "0.1.0"
+requires-python = ">=3.13,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[dependency-groups]
+dev = [
+  "homeassistant",
+  "pytest",
+  "pytest-asyncio",
+  "pytest-homeassistant-custom-component",
+  "ruff",
+  "basedpyright"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.basedpyright]
+pythonVersion = "3.13"
+typeCheckingMode = "standard"

@@ -1,0 +1,107 @@
+# Python
+pycache/
+__pycache__/
+.py[cod]
+$py.class
+
+# C extensions
+.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+.egg-info/
+.installed.cfg
+.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# uv
+.python-version
+
+# Coverage
+.coverage
+.coverage.
+htmlcov/
+.pytest_cache/
+
+# Type checking
+.basedpyright/
+.pyright/
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Home Assistant
+home-assistant.log
+home-assistant.log.
+.storage/
+tts/
+deps/
+config/.storage/
+config/home-assistant_v2.db
+config/home-assistant_v2.db-
+config/home-assistant.log
+config/tts/
+
+# Testing
+tests/pycache/
+
+# Environment files
+.env
+.env.
+!.env.example
+
+# Secrets
+secrets.yaml
+
+# Local Home Assistant instances
+config/
+hass/
+homeassistant/
+
+# GitHub Actions artifacts
+*.zip
+
+# Release artifacts
+nws_alerts.zip
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+
+# Local development overrides
+local.py
+settings.local.py

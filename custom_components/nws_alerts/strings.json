@@ -1,0 +1,54 @@
+{
+  "title": "NWS Alerts",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure NWS Alerts",
+        "description": "Fetch active alerts from the National Weather Service API.",
+        "data": {
+          "name": "Name",
+          "user_agent": "User-Agent",
+          "scan_interval": "Scan interval in seconds",
+          "status": "Status",
+          "message_type": "Message type",
+          "event": "Event",
+          "code": "Code",
+          "area": "Area / state",
+          "point": "Point",
+          "region": "Region",
+          "region_type": "Region type",
+          "zone": "Zone",
+          "urgency": "Urgency",
+          "severity": "Severity",
+          "certainty": "Certainty",
+          "limit": "Limit"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "NWS Alerts Options",
+        "data": {
+          "name": "Name",
+          "user_agent": "User-Agent",
+          "scan_interval": "Scan interval in seconds",
+          "status": "Status",
+          "message_type": "Message type",
+          "event": "Event",
+          "code": "Code",
+          "area": "Area / state",
+          "point": "Point",
+          "region": "Region",
+          "region_type": "Region type",
+          "zone": "Zone",
+          "urgency": "Urgency",
+          "severity": "Severity",
+          "certainty": "Certainty",
+          "limit": "Limit"
+        }
+      }
+    }
+  }
+}
